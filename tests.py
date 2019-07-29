@@ -33,6 +33,18 @@ class TestHabrPageProcess(unittest.TestCase):
         <use xlink:href="http://127.0.0.1:8080/xlink/href/path"></use></span>"""
         assert expected == process_habr_page(source), f'Expected:\n{expected}\nGot:\n{process_habr_page(source)}'
 
+    def test_text_inside_br_tag(self):
+        """
+        Description: Test for checking br tag handling
+        """
+        source = """<div>Сейчас на фоне уязвимости Logjam все в индустрии в очередной раз обсуждают 
+                проблемы и особенности TLS. <br>Я хочу воспользоваться этой возможностью, чтобы 
+                поговорить об одной из них, а именно — о настройке ciphersuites.</div>"""
+        expected = """<div>Сейчас™ на фоне уязвимости Logjam™ все в индустрии в очередной раз обсуждают 
+                проблемы и особенности TLS. <br>Я хочу воспользоваться этой возможностью, чтобы 
+                поговорить об одной из них, а именно™ — о настройке ciphersuites.</div>"""
+        assert expected == process_habr_page(source), f'Expected:\n{expected}\nGot:\n{process_habr_page(source)}'
+
 
 if __name__ == '__main__':
     unittest.main()
